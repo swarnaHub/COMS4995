@@ -1,7 +1,3 @@
-'''Train a Bidirectional LSTM for sentence classification.
-Taken from here: https://github.com/fchollet/keras/blob/master/examples/ 
-'''
-
 from __future__ import print_function
 import numpy as np,sys
 np.random.seed(1337)  # for reproducibility
@@ -118,58 +114,31 @@ print('X_train shape:', X_train.shape)
 print('X_test shape:', X_test.shape)
 
 
-# this is the placeholder tensor for the input sequences
 model = Sequential()
 model.add(Embedding(max_features, 128, input_length=maxlen))
-# model.add(Dropout(0.25))
 model.add(Bidirectional(LSTM(256,return_sequences=True)))
-# model.add(Dropout(0.25))
 model.add(AttLayer())
-# model.add(Dropout(0.5))
 
 
-# sequence = Input(shape=(maxlen,), dtype='int32')
-# this embedding layer will transform the sequences of integers
-# into vectors of size 128
-# embedded = Embedding(max_features, 128, input_length=maxlen)(sequence)
 
-# apply forwards LSTM
-# model.add()
-# forwards = LSTM(256)(embedded)
-# # apply backwards LSTM
-# backwards = LSTM(256, go_backwards=True)(embedded)
-
-# # concatenate the outputs of the 2 LSTMs
-# merged = merge([forwards, backwards], mode='concat', concat_axis=-1)
-
-# attLayer = AttLayer()(merged)
-
-
-# after_dp = Dropout(0.5)(attLayer)
 if doReShape:
   ounits = 2
   activation = "softmax"
 else:
   ounits = 1
   activation = "sigmoid"
-# output = Dense(ounits, activation=activation)(after_dp)
 model.add(MaxoutDense(100, W_constraint=maxnorm(2)))
 model.add(Dropout(0.5))
 model.add(Dense(ounits,activity_regularizer=l2(0.0001)))
 model.add(Activation('sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# model = Model(input=sequence, output=output)
-
-# try using different optimizers and different optimizer configs
-# model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
-
 print('Train...X')
 weightsPath = './tmp/weights'+sys.argv[4]+'.hdf5'
 checkpointer = ModelCheckpoint(filepath=weightsPath, verbose=1, save_best_only=True)
 model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=5,
           validation_data=(X_dev, y_dev),callbacks=[checkpointer])
-# need to load the best weights
+
 model.load_weights(weightsPath)
 scoreBest, accBest = model.evaluate(X_test, y_test,
                             batch_size=batch_size)
@@ -189,8 +158,6 @@ for i in xrange(len(pDev)):
   if doReShape: pr = str(np.argmax(pDev[i]))
   else: pr = str(threshold(pDev[i][0]))
   predsDev.append( pr )
-# print("TEST:"+" ".join(predsTest))
-# print("DEV:"+" ".join(predsDev))
 for p in predsTest:
   f.write(str(p)+'\n')
 
