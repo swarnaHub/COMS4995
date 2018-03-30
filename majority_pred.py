@@ -1,5 +1,5 @@
 from itertools import izip
-num = 3
+num = 3 
 
 a = ['bilstm_pred_'+str(num)+'_'+str(j) for j in range(1,21)]
 f = open('./indomain_pred/maj_'+str(num),'w')
