@@ -2,8 +2,8 @@
 from sklearn.metrics import classification_report , precision_recall_fscore_support,precision_score,recall_score,f1_score
 
 f = open('classification_report.txt','w')
-
-for i in range(1,4):
+num = 4  
+for i in range(1,num):
 	y_pred = []
 	y_test = []
 
