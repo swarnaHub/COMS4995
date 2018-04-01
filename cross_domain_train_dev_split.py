@@ -3,9 +3,6 @@ import numpy
 from sklearn.model_selection import KFold
 import os
 
-#===============================================================================================================
-#Uncomment parts in between equals and run
-#Part 1
 
 path = 'wikitalk.txt'
 l = []
@@ -23,8 +20,6 @@ for tup in l:
 		cl.append(tup)
 	elif int(tup[1])==0:
 		noncl.append(tup)
-# l = numpy.array(l)
-# numpy.random.shuffle(l)
 
 cl = numpy.array(cl)
 noncl = numpy.array(noncl)
@@ -47,12 +42,7 @@ for train_index2, test_index2 in cv_object2.split(noncl):
 			f.write(noncl[test_index2[k]][0]+'\t'+noncl[test_index2[k]][1])
 		count = count+1
 
-#====================================================================================================================
 
-
-#===============================================================================================================
-#Uncomment parts in between equals and run
-#Part 2
 
 a = [1,2,3,4,5,6,7,8,9,10]
 for i in range(1,11):
@@ -70,12 +60,7 @@ for i in range(1,11):
 	f1 = open('./data/cv_'+str(notin[0]),'r')
 	for line in f1:
 		f.write(line)
-#===============================================================================================================
 
-
-#===============================================================================================================
-#Uncomment parts in between equals and run
-#Part 3
 
 for i in range(1,11):
 	f = open('./concatdata/train/cv_'+str(i),'r')
@@ -99,7 +84,6 @@ for i in range(1,11):
 		for line in a:
 			g.write(line)
 
-#===============================================================================================================
 
 
 
