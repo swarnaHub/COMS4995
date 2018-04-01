@@ -21,7 +21,6 @@ for i in range(len(a)):
 			c[count][line] = c[count][line]+1
 			count = count+1
 
-print c[0:10]
 
 for i in range(len(c)):
 	if c[i][0]>c[i][1]:
