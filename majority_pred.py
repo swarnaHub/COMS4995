@@ -1,14 +1,14 @@
-from itertools import izip
-num = 3 
+num = 3
+testsize = 859
 
 a = ['bilstm_pred_'+str(num)+'_'+str(j) for j in range(1,21)]
 f = open('./indomain_pred/maj_'+str(num),'w')
 print a
 
 c = []
-for i in range(0,859):
+for i in range(0,testsize):
 	c.append([])
-for i in range(0,859):
+for i in range(0,testsize):
 	c[i].append(0)
 	c[i].append(0)
 
