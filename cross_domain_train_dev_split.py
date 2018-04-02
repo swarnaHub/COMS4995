@@ -4,13 +4,14 @@ from sklearn.model_selection import KFold
 import os
 
 
-path = 'wikitalk.txt'
+path = 'wikitalk.txt' #change the file name
 l = []
 for line in open(path,'r'):
-	l.append((line.split('\t')[0],line.split('\t')[1]))
+	l.append((line.split('\t')[0],line.split('\t')[1]))  #seperate sentence and labels and put in a tuplr
 
 random.seed(42)
 
+#Segregate claims and non claims
 claim = 0
 cl = []
 noncl = []
@@ -25,7 +26,8 @@ cl = numpy.array(cl)
 noncl = numpy.array(noncl)
 
 
-
+#Bucketize claims and non claims into 10 buckets
+#add claims and nonclaims into each of these 10 buckets
 cv_object1 = KFold(n_splits=10, shuffle=True, random_state=42)
 count = 1
 for train_index1, test_index1 in cv_object1.split(cl):
@@ -43,6 +45,10 @@ for train_index2, test_index2 in cv_object2.split(noncl):
 		count = count+1
 
 
+
+#generate 9 random numbers for from 1 to 10 for train , and the remaining 1 number is dev
+#using these numbers concat the files to create train files 
+#perform this experiment 10 times to get 10 train & dev file such that the ratio 9:1 is preserved
 
 a = [1,2,3,4,5,6,7,8,9,10]
 for i in range(1,11):
@@ -62,6 +68,8 @@ for i in range(1,11):
 		f.write(line)
 
 
+#Now that we have the train file we create 20 ensemble train files where we randomly
+#sample non claims equal to the  number of claims so that the ration is 1:1 and the datset  balanced 
 for i in range(1,11):
 	f = open('./concatdata/train/cv_'+str(i),'r')
 	cl = []
