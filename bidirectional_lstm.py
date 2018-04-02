@@ -1,6 +1,6 @@
 from __future__ import print_function
 import numpy as np,sys
-np.random.seed(1337)  # for reproducibility
+np.random.seed(1337)  
 
 from keras.preprocessing import sequence
 from keras.models import Model
@@ -16,6 +16,10 @@ from keras.models import Sequential ,Model
 from keras.regularizers import l2
 from keras.constraints import maxnorm
 
+
+#code for Attention layer 
+#Implementation of word level attention from 
+#http://www.cs.cmu.edu/~./hovy/papers/16HLT-hierarchical-attention-networks.pdf
 
 class AttLayer(Layer):
     def __init__(self, W_regularizer=None, u_regularizer=None, b_regularizer=None,
@@ -96,16 +100,19 @@ max_features = 20000
 maxlen = 80  # cut texts after this number of words (among top max_features most common words)
 batch_size = 32
 
+#reads the data from train , dev and test and assigns every word an index from the vocabulary
 word2index = {}
 X_train,y_train,word2index = rd.read(sys.argv[1],word2index=word2index,startIndex=1)
 X_dev,y_dev,_ = rd.read(sys.argv[2],word2index,None)
 X_test,y_test,_ = rd.read(sys.argv[3],word2index,None)
+
 doReShape=False
 if doReShape:
   y_train = reshape(y_train)
   y_test = reshape(y_test)
   y_dev = reshape(y_dev)
 
+#pad sequence to ensure all are of same length
 print('Pad sequences (samples x time)')
 X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
 X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
@@ -114,6 +121,8 @@ print('X_train shape:', X_train.shape)
 print('X_test shape:', X_test.shape)
 
 
+#Deeplearning model
+#EMBEDDING--->BILSTM--->ATTENTION--->DENSELAYER--->SOFTMAX--->(prediction)
 model = Sequential()
 model.add(Embedding(max_features, 128, input_length=maxlen))
 model.add(Bidirectional(LSTM(256,return_sequences=True)))
@@ -133,6 +142,7 @@ model.add(Dense(ounits,activity_regularizer=l2(0.0001)))
 model.add(Activation('sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+#checkpoint best model
 print('Train...X')
 weightsPath = './tmp/weights'+sys.argv[4]+'.hdf5'
 checkpointer = ModelCheckpoint(filepath=weightsPath, verbose=1, save_best_only=True)
@@ -147,6 +157,7 @@ print('Test score:', scoreBest)
 print('Test accuracy:', accBest)
 pTest = model.predict_on_batch(X_test)
 pDev = model.predict_on_batch(X_dev)
+#save test predictions to a file
 f = open('./indomain_pred/bilstm_pred_'+sys.argv[4],'w')
 predsTest = []
 predsDev = []
