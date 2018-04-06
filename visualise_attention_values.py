@@ -212,6 +212,7 @@ print("shape of attention: ", attention_values.shape)
 print(attention_values)
 
 #supposedly you want to visualize weights of 8th sentence in test set 
-for i in range(len(X_test[7])):
-    if X_test[7][i]!=0:
-        print(i2w[X_test[7][i]],attention_values[7][i][0])
+test_sentence_number = 17
+for i in range(len(X_test[test_sentence_number])):
+    if X_test[test_sentence_number][i]!=0:
+        print(i2w[X_test[test_sentence_number][i]],attention_values[test_sentence_number][i][0])
