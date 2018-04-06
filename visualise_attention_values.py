@@ -162,7 +162,7 @@ model1.add(Dense(ounits,activity_regularizer=l2(0.0001)))
 model1.add(Activation('sigmoid'))
 #model1.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-weightsPath = "/tmp/weights2.hdf5"
+weightsPath = "./tmp/weights2.hdf5"
 model1.load_weights(weightsPath)
 
 model1.summary()
