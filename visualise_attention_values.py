@@ -186,7 +186,11 @@ model2.summary()
 word2index = {}
 X_train,y_train,word2index = rd.read('train_WD',word2index=word2index,startIndex=1)
 X_dev,y_dev,_ = rd.read('dev_WD',word2index,None)
-X_test,y_test,_ = rd.read('test_WD',word2index,None)
+X_test,y_test,w2i = rd.read('test_WD',word2index,None)
+i2w = {}
+for word in w2i:
+    x = w2i[word]
+    i2w[x] = word
 doReShape=False
 if doReShape:
   y_train = reshape(y_train)
@@ -205,5 +209,9 @@ print(type(X_test))
 print(X_test[0, :])
 attention_values = model2.predict(X_test)
 print("shape of attention: ", attention_values.shape)
-
 print(attention_values)
+
+#supposedly you want to visualize weights of 8th sentence in test set 
+for i in range(len(X_test[7])):
+    if X_test[7][i]!=0:
+        print(i2w[X_test[7][i]],attention_values[7][i][0])
