@@ -20,5 +20,5 @@ for i in range(1,num):
 
 
 	f.write(str(classification_report(y_test, y_pred)+'\n'))
-	f.write(str(f1_score(y_test, y_pred, average='macro'))+'\n')
+	f.write(str(f1_score(y_test, y_pred, average='weighted'))+'\n')
 	f.write("-------------------------------------------------\n")
