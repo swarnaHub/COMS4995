@@ -1,5 +1,6 @@
 # COMS4995/Deep Learning
-This repository holds code for creating 10 cross validations fromt he dataset files, BiLSTM with attention deep learning code, code for obtaining the macro and claim F1-scores and 6 data.txt files.
+This repository holds code for creating 10 cross validations from the dataset files and the three BILSTM models
+
 
 To run this file
 python script.py
